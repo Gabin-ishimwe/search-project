@@ -1,6 +1,7 @@
 import { dbConnection } from "@/config/database";
 import { Company } from "@/models/company";
 import * as bcrypt from "bcrypt";
+import { NextResponse } from "next/server";
 
 interface SignUpBody {
   companyName: string;
@@ -12,13 +13,15 @@ export const POST = async (req: Request) => {
   try {
     await dbConnection();
     const body: SignUpBody = await req.json();
-    console.log(req.body);
     const findCompany = await Company.findOne({
       email: body.userName,
     });
     if (findCompany) {
       // throw user exists
-      return new Response(JSON.stringify({ message: "Email arleady exists" }));
+      return NextResponse.json(
+        { message: "Email arleady exists" },
+        { status: 400 }
+      );
     }
     // hash password
     const hashPassword = bcrypt.hashSync(body.password, 10);
@@ -28,8 +31,8 @@ export const POST = async (req: Request) => {
       email: body.userName,
       password: hashPassword,
     });
-    return new Response(JSON.stringify(newCompany));
-  } catch (error) {
-    return new Response(JSON.stringify(error));
+    return NextResponse.json(newCompany, { status: 201 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 };

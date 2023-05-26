@@ -1,3 +1,31 @@
+import { dbConnection } from "@/config/database";
+import { Company } from "@/models/company";
+import * as bcrypt from "bcrypt";
+import { NextResponse } from "next/server";
+
+interface SignInBody {
+  userName: string;
+  password: string;
+}
+
 export const POST = async (req: Request) => {
-  return null;
+  try {
+    await dbConnection();
+    const body: SignInBody = await req.json();
+    const findCompany = await Company.findOne({
+      email: body.userName,
+    });
+    if (!findCompany) {
+      return NextResponse.json(
+        { message: "Account doesn't exist" },
+        { status: 404 }
+      );
+    }
+    if (!bcrypt.compareSync(body.password, findCompany.password)) {
+      return NextResponse.json({ message: "Bad credentials" }, { status: 400 });
+    }
+    return NextResponse.json(findCompany, { status: 200 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
 };
