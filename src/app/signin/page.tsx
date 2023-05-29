@@ -1,22 +1,20 @@
 "use client";
-
-import { signIn } from "next-auth/react";
 import React from "react";
 
-const LoginPage = () => {
+const SignUpPage = () => {
+  const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const handleSubmit = async () => {
-    const result = await signIn("credentials", {
-      username: email,
-      password: password,
-      redirect: true,
-      callbackUrl: "/",
-    });
-    console.log(result);
-  };
+
   return (
     <div>
+      <input
+        type="text"
+        className="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+        placeholder="name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
       <input
         type="email"
         className="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
@@ -32,7 +30,7 @@ const LoginPage = () => {
         onChange={(e) => setPassword(e.target.value)}
       />
       <button
-        onClick={handleSubmit}
+        onClick={() => {}}
         className="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800">
         Login
       </button>
@@ -40,4 +38,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default SignUpPage;

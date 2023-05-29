@@ -1,4 +1,5 @@
 import { dbConnection } from "@/config/database";
+import { jwtAccessToken } from "@/helpers/jwtHelplers";
 import { Company } from "@/models/company";
 import * as bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
@@ -24,7 +25,14 @@ export const POST = async (req: Request) => {
     if (!bcrypt.compareSync(body.password, findCompany.password)) {
       return NextResponse.json({ message: "Bad credentials" }, { status: 400 });
     }
-    return NextResponse.json(findCompany, { status: 200 });
+    const accessToken = jwtAccessToken(findCompany.toJSON());
+    return NextResponse.json(
+      {
+        data: findCompany,
+        accessToken,
+      },
+      { status: 200 }
+    );
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
