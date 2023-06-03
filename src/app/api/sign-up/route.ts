@@ -31,7 +31,13 @@ export const POST = async (req: Request) => {
       email: body.userName,
       password: hashPassword,
     });
-    return NextResponse.json(newCompany, { status: 201 });
+    return NextResponse.json(
+      {
+        message: "User registered successfully",
+        data: newCompany,
+      },
+      { status: 201 }
+    );
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

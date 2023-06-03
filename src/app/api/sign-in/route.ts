@@ -28,6 +28,7 @@ export const POST = async (req: Request) => {
     const accessToken = jwtAccessToken(findCompany.toJSON());
     return NextResponse.json(
       {
+        message: "User logged in successfully",
         data: findCompany,
         accessToken,
       },

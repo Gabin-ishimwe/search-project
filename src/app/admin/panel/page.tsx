@@ -1,5 +1,5 @@
-const page = () => {
+const Page = () => {
   return <div>Admin Panel Page</div>;
 };
 
-export default page;
+export default Page;

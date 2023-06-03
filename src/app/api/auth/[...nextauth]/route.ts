@@ -19,11 +19,12 @@ export const authOptions: NextAuthOptions = {
           }),
         });
         const user = await res.json();
-        console.log(user);
-
-        if (!user) {
+        console.log("user ", user);
+        if (res.status != 200) {
+          console.log("here---");
           return null;
         }
+        console.log("returning....");
         return user;
       },
     }),
