@@ -5,6 +5,9 @@ import { Provider } from "react-redux";
 import { store } from "./store";
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
+  React.useEffect(() => {
+    import("preline");
+  }, []);
   return <Provider store={store}>{children}</Provider>;
 };
 

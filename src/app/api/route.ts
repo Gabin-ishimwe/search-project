@@ -4,7 +4,9 @@ import { Company } from "../../models/company";
 export async function GET(request: Request) {
   try {
     await dbConnection();
-    return new Response("hello");
+    console.log(request.headers.get("Authorization"));
+
+    return new Response(request as any);
   } catch (error) {}
   return new Response("Testing route");
 }

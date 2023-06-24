@@ -1,3 +1,4 @@
+import AuthProvider from "@/components/AuthProvider";
 import Providers from "@/redux/provider";
 import { Inter } from "next/font/google";
 import React from "react";
@@ -18,7 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Providers>{children}</Providers>
+        <AuthProvider>
+          <Providers>{children}</Providers>
+        </AuthProvider>
       </body>
     </html>
   );
